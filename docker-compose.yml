@@ -1,0 +1,32 @@
+version: "3"
+services:
+  windows:
+    image: dockurr/windows
+    container_name: windows
+    environment:
+      VERSION: "2019"
+      RAM_SIZE: "16G"
+      CPU_CORES: "8"
+      DISK_SIZE: "256G"
+#     DEVICE2: "/dev/sdb"
+      TZ: "Asia/Kolkata"
+    volumes:
+      - /docker-containers/windows11/data:/storage
+    devices:
+      - /dev/kvm
+#     - /dev/sdb
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - 8006:8006
+      - 3389:3389/tcp
+      - 3389:3389/udp
+    stop_grace_period: 2m
+    restart: on-failure
+    networks:
+      vlan:
+        ipv4_address: 10.20.1.137
+
+networks:
+  vlan:
+    external: true
